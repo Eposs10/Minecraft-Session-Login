@@ -33,7 +33,7 @@ public class SessionInputGui extends Screen {
     protected void init() {
         this.sessionTextInputWidget = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, 20, 50, 200, 12, Text.literal("Session"));
         this.sessionTextInputWidget.setText("Input your Session ID here");
-        this.sessionTextInputWidget.setTextFieldFocused(false);
+        this.sessionTextInputWidget.setFocused(false);
         this.sessionTextInputWidget.setMaxLength(50000);
         this.sessionTextInputWidget.setChangedListener((currentSession) -> {
             System.out.println("");
@@ -42,7 +42,7 @@ public class SessionInputGui extends Screen {
 
         this.usernameTextInputWidget = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, 20, 30, 200, 12, Text.literal("Username"));
         this.usernameTextInputWidget.setText("Input your Username here");
-        this.usernameTextInputWidget.setTextFieldFocused(false);
+        this.usernameTextInputWidget.setFocused(false);
         this.usernameTextInputWidget.setMaxLength(50000);
         this.usernameTextInputWidget.setChangedListener((currentUsername) -> {
             System.out.println("");
@@ -51,14 +51,14 @@ public class SessionInputGui extends Screen {
 
         this.uuidTextInputWidget = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, 20, 10, 200, 12, Text.literal("UUID"));
         this.uuidTextInputWidget.setText("Input your FULL username's UUID here (https://mcuuid.net)");
-        this.usernameTextInputWidget.setTextFieldFocused(false);
+        this.usernameTextInputWidget.setFocused(false);
         this.uuidTextInputWidget.setMaxLength(50000);
         this. uuidTextInputWidget.setChangedListener((currentUUID) -> {
             System.out.println("");
         });
         this.addDrawableChild(uuidTextInputWidget);
 
-        updateButton = new ButtonWidget(20, 80, 40, 20, Text.literal("update"), new ButtonWidget.PressAction() {
+        updateButton = ButtonWidget.builder(Text.of("update"), new ButtonWidget.PressAction() {
             @Override
             public void onPress(ButtonWidget button) {
                 SetSession.UUID = uuidTextInputWidget.getText();
@@ -69,25 +69,25 @@ public class SessionInputGui extends Screen {
                 MinecraftClient.getInstance().player.sendMessage(Text.of("§3Your session was updated! §6Relog §3to this server or §6join another one!"));
                 SetSession.originalSession = false;
             }
-        });
+        }).dimensions(20, 80, 40, 20).build();
         this.addDrawableChild(updateButton);
 
-        ButtonWidget closeButton = new ButtonWidget(80, 80, 40, 20, Text.literal("Cancel"), new ButtonWidget.PressAction() {
+        ButtonWidget closeButton = ButtonWidget.builder(Text.of("Cancel"), new ButtonWidget.PressAction() {
             @Override
             public void onPress(ButtonWidget button) {
                 MinecraftClient.getInstance().setScreen(null);
             }
-        });
+        }).dimensions(80, 80, 40, 20).build();
         this.addDrawableChild(closeButton);
 
-        resetButton = new ButtonWidget(140, 80, 40, 20, Text.literal("reset"), new ButtonWidget.PressAction() {
+        resetButton = ButtonWidget.builder(Text.of("reset"), new ButtonWidget.PressAction() {
             @Override
             public void onPress(ButtonWidget button) {
                 SetSession.originalSession = true;
                 MinecraftClient.getInstance().setScreen(null);
                 MinecraftClient.getInstance().player.sendMessage(Text.literal("§3Your Session was reset to the one §6you started this minecraft instance with"));
             }
-        });
+        }).dimensions(140, 80, 40, 20).build();
         this.addDrawableChild(resetButton);
     }
 
@@ -104,7 +104,7 @@ public class SessionInputGui extends Screen {
             updateButton.active = false;
         }
         if (resetButton.isHovered()) {
-            resetButton.renderTooltip(new MatrixStack(), 20, 10);
+            resetButton.render(new MatrixStack(), 20, 10, 0);
         }
     }
 
