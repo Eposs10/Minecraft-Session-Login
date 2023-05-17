@@ -13,7 +13,6 @@ import tk.jandev.minecraftsessionlogin.client.sessionLogin.SetSession;
 public class SessionMixin {
 
     @Inject(at=@At("TAIL"), method="getSessionId", cancellable = true)
-
     private void getSessionId(CallbackInfoReturnable<String> cir) {
         if (SetSession.originalSession) return;
         cir.setReturnValue(SetSession.sessionid);

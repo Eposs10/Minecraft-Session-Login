@@ -26,7 +26,8 @@ public class SetSession {
 
 
     public static void registerSessionCommand() {
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("session").executes(context -> {
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
+                dispatcher.register(ClientCommandManager.literal("session").executes(context -> {
             mc.send(() -> mc.setScreen(new SessionInputGui()));
             return 1;
         })));
